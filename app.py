@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request
 from models.Ingrediente import Ingrediente
+from database.dbconn import dbConn
 
 app = Flask('__name__')
+
+#Inicializar variables
+dbconn = dbConn()
 
 @app.route('/crear_ingrediente', methods=['GET', 'POST'])
 def crear_ingrediente():
@@ -11,9 +15,8 @@ def crear_ingrediente():
         nombre = request.form['nombre']
         unidad = request.form['unidad']
         prote = request.form['prote']
-        nuevo_ingrediente = Ingrediente(nombre, unidad, prote)
-        print(str(nuevo_ingrediente))
-        return str(nuevo_ingrediente)
+        dbconn.db_crear_ingrediente(nombre, unidad, prote)
+        return "Ingdediente creado"
 
 
 if __name__ == '__main__':
