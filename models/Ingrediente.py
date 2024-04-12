@@ -1,4 +1,4 @@
-from database.dbconn import dbConn
+from utils.dbconn import dbConn
 
 
 class Ingrediente:
