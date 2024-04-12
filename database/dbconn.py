@@ -9,7 +9,7 @@ class dbConn:
             'port': '5432'
             }
 
-    def execute_insert_query(self, query, data=None):
+    def execute_query(self, query, data=None):
             conn = psycopg2.connect(**self.connData)
             cur = conn.cursor()
             if data:
@@ -17,7 +17,7 @@ class dbConn:
             else:
                 cur.execute(query)
             try:
-                result = cur.fetchone()
+                result = cur.fetchall()
             except psycopg2.ProgrammingError as e:
                 result = ""
             conn.commit()
@@ -29,19 +29,11 @@ class dbConn:
         query = """INSERT INTO public.ingredientes (nombre, unidad, prote) 
                     VALUES (%s, %s, %s);"""
         data = (nombre, unidad, prote)
-        self.execute_insert_query(query, data)
+        self.execute_query(query, data)
 
     def db_cargar_ingredientes(self):
-        conn = psycopg2.connect(**self.connData) ##'**' transforma el dicc en cadena DSN
-        cur = conn.cursor()
-
-        cur.execute("SELECT id, nombre FROM public.ingredientes")
-        ingredientes = cur.fetchall()
-        print(str(ingredientes))
-
-        conn.commit()
-        cur.close()
-        conn.close()
+        query = "SELECT id, nombre FROM public.ingredientes"
+        ingredientes = self.execute_query(query)
         return ingredientes
     
     def db_crear_receta(self, nombre, descripcion, id_ingredientes):
@@ -50,10 +42,10 @@ class dbConn:
                     VALUES (%s, %s)
                     RETURNING id;"""
         data = (nombre, descripcion)
-        id_receta = self.execute_insert_query(query, data)
+        id_receta = self.execute_query(query, data)[0]
         for id_ingr in id_ingredientes:
             query = """INSERT INTO public.receta_ingredientes(
                         id_receta, id_ingrediente)
                         VALUES (%s, %s);"""
             data = (id_receta, id_ingr)
-            self.execute_insert_query(query, data)
+            self.execute_query(query, data)
