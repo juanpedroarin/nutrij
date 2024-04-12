@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Receta</title>
+</head>
+<body>
+    <h1>Crear Receta</h1>
+    <form action="/crear_receta" method="POST">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <label for="descripcion">Descripción:</label><br>
+        <textarea id="descripcion" name="descripcion" rows="4" cols="50" required></textarea><br><br>
+
+        <div id="ingredientes-container">
+            <!-- Los dropdowns de ingredientes se generarán aquí dinámicamente -->
+        </div>
+        <button type="button" onclick="agregarIngrediente()">Agregar Ingrediente</button><br><br>
+
+        <input type="submit" value="Guardar Receta">
+    </form>
+
+    <script>
+        // Función para agregar un nuevo dropdown de ingredientes
+        function agregarIngrediente() {
+            var contenedor = document.getElementById("ingredientes-container");
+            var select = document.createElement("select");
+            select.id = "ingredientes"
+            select.name="ingredientes[]"
+
+            // Agregar opciones de ingredientes al dropdown
+            fetch('/get_dropdown_ingredientes')
+                .then(response => response.json())
+                .then(opciones =>{
+                    opciones.forEach(function(ingrediente){
+                        var option = document.createElement("option");
+                        option.text = ingrediente[1];
+                        option.value = ingrediente[0];
+                        select.add(option);
+                    });
+                })
+
+            contenedor.appendChild(select);
+            console.log(contenedor)
+            contenedor.appendChild(document.createElement("br")); // Salto de línea
+        };
+        
+    </script>
+</body>
+</html>
