@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from models.Ingrediente import Ingrediente
-from database.dbconn import dbConn
+from utils.dbconn import dbConn
 
 app = Flask('__name__')
 
