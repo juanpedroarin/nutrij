@@ -7,6 +7,11 @@ app = Flask('__name__')
 #Inicializar variables
 dbconn = dbConn()
 
+# Ruta estática para servir archivos JavaScript
+@app.route('/static/js/<path:path>')
+def serve_static_js(path):
+    return app.send_static_file(f'js/{path}')
+
 @app.route('/crear_ingrediente', methods=['GET', 'POST'])
 def crear_ingrediente():
     if request.method == 'GET':
