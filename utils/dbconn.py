@@ -1,4 +1,5 @@
 import psycopg2
+from models.Ingrediente import Ingrediente
 
 class dbConn:
     def __init__(self):
@@ -30,11 +31,15 @@ class dbConn:
                     VALUES (%s, %s, %s);"""
         data = (nombre, unidad, prote)
         self.execute_query(query, data)
-
+    
     def db_cargar_ingredientes(self):
-        query = "SELECT id, nombre FROM public.ingredientes"
-        ingredientes = self.execute_query(query)
-        return ingredientes
+        query = "SELECT * FROM public.ingredientes"
+        result = self.execute_query(query)
+        lista_ingredientes = []
+        for ingr in result:
+            ingrediente = Ingrediente(ingr[0], ingr[1], ingr[2], ingr[3])
+            lista_ingredientes.append(ingrediente)
+        return lista_ingredientes
     
     def db_crear_receta(self, nombre, descripcion, id_ingredientes):
         query = """INSERT INTO public.recetas(

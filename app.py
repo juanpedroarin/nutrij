@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request
-from models.Ingrediente import Ingrediente
 from utils.dbconn import dbConn
 
 app = Flask('__name__')
 
 #Inicializar variables
 dbconn = dbConn()
+ingredientes = dbconn.db_cargar_ingredientes()
 
 # Ruta estática para servir archivos JavaScript
 @app.route('/static/js/<path:path>')
@@ -21,7 +21,13 @@ def crear_ingrediente():
         unidad = request.form['unidad']
         prote = request.form['prote']
         dbconn.db_crear_ingrediente(nombre, unidad, prote)
+        global ingredientes
+        ingredientes = dbconn.db_cargar_ingredientes()
         return "Ingdediente creado"
+    
+@app.route('/ver_ingredientes', methods=['GET'])
+def ver_ingredientes():
+    return str(ingredientes)
     
 @app.route('/crear_receta', methods=['GET', 'POST'])
 def crear_receta():
@@ -36,7 +42,7 @@ def crear_receta():
     
 @app.route('/get_dropdown_ingredientes', methods=['GET'])
 def get_dropdown_ingredientes():
-    opciones = dbconn.db_cargar_ingredientes()
+    opciones = [(ingr.id, ingr.nombre) for ingr in ingredientes]
     return opciones
 
 
