@@ -3,7 +3,7 @@ from utils.dbconn import dbConn
 
 app = Flask('__name__')
 
-#Inicializar variables
+# Inicializar variables
 dbconn = dbConn()
 ingredientes = dbconn.db_cargar_ingredientes()
 
@@ -12,6 +12,7 @@ ingredientes = dbconn.db_cargar_ingredientes()
 def serve_static_js(path):
     return app.send_static_file(f'js/{path}')
 
+# Creadores
 @app.route('/crear_ingrediente', methods=['GET', 'POST'])
 def crear_ingrediente():
     if request.method == 'GET':
@@ -25,10 +26,6 @@ def crear_ingrediente():
         ingredientes = dbconn.db_cargar_ingredientes()
         return "Ingdediente creado"
     
-@app.route('/ver_ingredientes', methods=['GET'])
-def ver_ingredientes():
-    return str(ingredientes)
-    
 @app.route('/crear_receta', methods=['GET', 'POST'])
 def crear_receta():
     if request.method == 'GET':
@@ -40,6 +37,13 @@ def crear_receta():
         dbconn.db_crear_receta(nombre, descripcion, id_ingredientes)
         return "Receta creada"
     
+# Veedores
+@app.route('/ver_ingredientes', methods=['GET'])
+def ver_ingredientes():
+    return str(ingredientes)
+    
+
+# Otras
 @app.route('/get_dropdown_ingredientes', methods=['GET'])
 def get_dropdown_ingredientes():
     opciones = [(ingr.id, ingr.nombre) for ingr in ingredientes]

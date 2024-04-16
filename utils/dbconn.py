@@ -26,6 +26,7 @@ class dbConn:
             conn.close()
             return result
 
+# Ingredientes
     def db_crear_ingrediente(self, nombre, unidad, prote):
         query = """INSERT INTO public.ingredientes (nombre, unidad, prote) 
                     VALUES (%s, %s, %s);"""
@@ -41,6 +42,7 @@ class dbConn:
             lista_ingredientes.append(ingrediente)
         return lista_ingredientes
     
+# Recetas
     def db_crear_receta(self, nombre, descripcion, id_ingredientes):
         query = """INSERT INTO public.recetas(
                     nombre, descripcion)
