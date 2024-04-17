@@ -18,6 +18,5 @@ function agregarIngrediente() {
         })
 
     contenedor.appendChild(select);
-    console.log(contenedor)
     contenedor.appendChild(document.createElement("br")); // Salto de línea
 };

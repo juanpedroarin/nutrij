@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from utils.dbconn import dbConn
 
 app = Flask('__name__')
@@ -7,6 +7,10 @@ app = Flask('__name__')
 dbconn = dbConn()
 ingredientes = dbconn.db_cargar_ingredientes()
 recetas = dbconn.db_cargar_recetas(ingredientes)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # Ruta estática para servir archivos JavaScript
 @app.route('/static/js/<path:path>')
@@ -39,9 +43,20 @@ def crear_receta():
         return "Receta creada"
     
 # Veedores
-@app.route('/ver_ingredientes', methods=['GET'])
-def ver_ingredientes():
-    return str(ingredientes)
+@app.route('/ver')
+def ver():
+    return render_template('ver.html')
+
+# Getters
+@app.route('/get', methods=['GET'])
+def get():
+    tipo = request.args.get('tipo')
+    if tipo == 'ingredientes':
+        ingredientes_dict = [ingrediente.__dict__ for ingrediente in ingredientes]
+        return jsonify(ingredientes_dict)
+    elif tipo == 'recetas':
+        recetas_dict = [receta.__dict__ for receta in recetas]
+        return jsonify(recetas_dict)
     
 
 # Otras
