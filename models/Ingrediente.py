@@ -1,5 +1,4 @@
 
-
 class Ingrediente:
     def __init__(self, id, nombre, unidad, prote):
         self.id = id
@@ -9,4 +8,4 @@ class Ingrediente:
 
 
     def __str__(self) -> str:
-        return '[[Ingrediente: >>>>> {}, {}, {}]]'.format(self.nombre, self.unidad, self.prote)
+        return '[Ing: {}, {}, {}]'.format(self.nombre, self.unidad, self.prote)

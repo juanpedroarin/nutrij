@@ -6,6 +6,7 @@ app = Flask('__name__')
 # Inicializar variables
 dbconn = dbConn()
 ingredientes = dbconn.db_cargar_ingredientes()
+recetas = dbconn.db_cargar_recetas(ingredientes)
 
 # Ruta estática para servir archivos JavaScript
 @app.route('/static/js/<path:path>')
