@@ -7,8 +7,6 @@ function verRecetas() {
         .then(response => response.json())
         .then(recetas => {
             recetas.forEach(receta => {
-                console.log('>>> RECETA (js):')
-                console.log(receta)
                 var a = document.createElement('a')
                 a.text = receta.nombre + " - " + receta.ingredientes
                 contenedor.appendChild(a)
