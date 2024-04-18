@@ -19,5 +19,4 @@ class Receta:
             'descripcion': self.descripcion,
             'ingredientes': [ingrediente.nombre for ingrediente in self.ingredientes]
         }
-        print(dic)
         return(dic)
