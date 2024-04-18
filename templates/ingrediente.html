@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <button onclick="window.location.href = '/';">Menu</button>
     <h2>Crear Ingrediente</h2>
     <form action="/crear_ingrediente" method="POST">
         <label for="nombre">Nombre:</label>
@@ -21,5 +22,8 @@
         <br><br>
         <input type="submit" value="Crear Ingrediente">
     </form>
+    {% if mensaje %}
+        {{mensaje}}
+    {% endif %}
 </body>
 </html>

@@ -29,7 +29,7 @@ def crear_ingrediente():
         dbconn.db_crear_ingrediente(nombre, unidad, prote)
         global ingredientes
         ingredientes = dbconn.db_cargar_ingredientes()
-        return "Ingdediente creado"
+        return render_template('ingrediente.html', mensaje='Ingrediente creado')
     
 @app.route('/crear_receta', methods=['GET', 'POST'])
 def crear_receta():
@@ -42,7 +42,7 @@ def crear_receta():
         dbconn.db_crear_receta(nombre, descripcion, id_ingredientes)
         global recetas
         recetas = recetas = dbconn.db_cargar_recetas(ingredientes)
-        return "Receta creada"
+        return render_template('receta.html', mensaje='Receta creada')
     
 # Veedores
 @app.route('/ver')
