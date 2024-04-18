@@ -11,3 +11,13 @@ class Receta:
             rece += "({})".format(ingr)
         rece += "]"
         return rece
+    
+    def to_dict(self):
+        dic = {
+            'id': self.id,
+            'nombre': self.nombre,
+            'descripcion': self.descripcion,
+            'ingredientes': [ingrediente.nombre for ingrediente in self.ingredientes]
+        }
+        print(dic)
+        return(dic)

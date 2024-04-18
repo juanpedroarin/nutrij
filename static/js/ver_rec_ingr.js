@@ -1,4 +1,22 @@
-//Agregar los ingredientes
+//Agregar los ingredientes y recetas
+
+function verRecetas() {
+    var contenedor = document.getElementById("recetas-container")
+
+    fetch('/get?tipo=recetas')
+        .then(response => response.json())
+        .then(recetas => {
+            recetas.forEach(receta => {
+                console.log('>>> RECETA (js):')
+                console.log(receta)
+                var a = document.createElement('a')
+                a.text = receta.nombre + " - " + receta.ingredientes
+                contenedor.appendChild(a)
+                contenedor.appendChild(document.createElement('br'))
+            })
+        })
+}
+
 function verIngredientes() {
     var contenedor = document.getElementById("ingredientes-container")
     
@@ -14,4 +32,5 @@ function verIngredientes() {
         })
 }
 
+verRecetas();
 verIngredientes();

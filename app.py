@@ -55,8 +55,8 @@ def get():
         ingredientes_dict = [ingrediente.__dict__ for ingrediente in ingredientes]
         return jsonify(ingredientes_dict)
     elif tipo == 'recetas':
-        recetas_dict = [receta.__dict__ for receta in recetas]
-        return jsonify(recetas_dict)
+        recetas_dict = [receta.to_dict() for receta in recetas]
+        return recetas_dict
     
 
 # Otras
