@@ -6,6 +6,7 @@
     <title>Crear Receta</title>
 </head>
 <body>
+    <button onclick="window.location.href = '/';">Menu</button>
     <h1>Crear Receta</h1>
     <form action="/crear_receta" method="POST">
         <label for="nombre">Nombre:</label>
@@ -21,6 +22,9 @@
 
         <input type="submit" value="Guardar Receta">
     </form>
+    {% if mensaje %}
+        {{mensaje}}
+    {% endif %}
 </body>
 <script src="static/js/ingrediente.js"></script>
 </html>

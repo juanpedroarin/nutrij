@@ -1,5 +1,6 @@
 import psycopg2
 from models.Ingrediente import Ingrediente
+from models.Receta import Receta
 
 class dbConn:
     def __init__(self):
@@ -26,6 +27,7 @@ class dbConn:
             conn.close()
             return result
 
+# Ingredientes
     def db_crear_ingrediente(self, nombre, unidad, prote):
         query = """INSERT INTO public.ingredientes (nombre, unidad, prote) 
                     VALUES (%s, %s, %s);"""
@@ -41,6 +43,7 @@ class dbConn:
             lista_ingredientes.append(ingrediente)
         return lista_ingredientes
     
+# Recetas
     def db_crear_receta(self, nombre, descripcion, id_ingredientes):
         query = """INSERT INTO public.recetas(
                     nombre, descripcion)
@@ -54,3 +57,23 @@ class dbConn:
                         VALUES (%s, %s);"""
             data = (id_receta, id_ingr)
             self.execute_query(query, data)
+    
+    def db_cargar_recetas(self, lista_ingredientes_sis):
+        query = """SELECT id, nombre, descripcion
+                    FROM public.recetas;"""
+        recetas = self.execute_query(query)
+        lista_recetas = []
+        for rece in recetas:
+            receta = Receta(rece[0], rece[1], rece[2])
+            query_receta_ingredientes = """SELECT id_ingrediente
+                                            FROM public.receta_ingredientes
+                                            WHERE id_receta = %s;"""
+            lista_id_ingredientes_receta = self.execute_query(query_receta_ingredientes, (rece[0],))
+            ingredientes_receta = []          
+            for id_i in lista_id_ingredientes_receta:
+                ingrediente_obj =  next((ingrediente for ingrediente in lista_ingredientes_sis if ingrediente.id == id_i[0]), None)
+                if ingrediente_obj:
+                    ingredientes_receta.append(ingrediente_obj)
+            receta.ingredientes = ingredientes_receta
+            lista_recetas.append(receta)
+        return lista_recetas
