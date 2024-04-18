@@ -40,6 +40,8 @@ def crear_receta():
         descripcion = request.form['descripcion']
         id_ingredientes = request.form.getlist('ingredientes[]')
         dbconn.db_crear_receta(nombre, descripcion, id_ingredientes)
+        global recetas
+        recetas = recetas = dbconn.db_cargar_recetas(ingredientes)
         return "Receta creada"
     
 # Veedores
