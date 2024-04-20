@@ -1,14 +1,16 @@
-import psycopg2
+import psycopg2, os
+from dotenv import load_dotenv
 from models.Ingrediente import Ingrediente
 from models.Receta import Receta
 
 class dbConn:
     def __init__(self):
+        load_dotenv()
         self.connData = {
-            'dbname': 'NutrijDB',
-            'user': 'postgres',
-            'host': 'localhost',
-            'port': '5432'
+            'dbname': os.getenv("ENV_DB_NAME_PROD"),
+            'user': os.getenv("ENV_USER"),
+            'host': os.getenv("ENV_HOST"),
+            'port': os.getenv("ENV_PORT")
             }
 
     def execute_query(self, query, data=None):
