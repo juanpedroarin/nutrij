@@ -30,13 +30,13 @@ class dbConn:
             return result
 
 # Ingredientes
-    def db_crear_ingrediente(self, nombre, unidad, prote):
+    def db_crear_ingrediente(self, nombre, unidad, prote): #test_crear_ingrediente
         query = """INSERT INTO public.ingredientes (nombre, unidad, prote) 
                     VALUES (%s, %s, %s);"""
         data = (nombre, unidad, prote)
         self.execute_query(query, data)
     
-    def db_cargar_ingredientes(self):
+    def db_cargar_ingredientes(self): #test_crear_ingrediente
         query = "SELECT * FROM public.ingredientes"
         result = self.execute_query(query)
         lista_ingredientes = []
@@ -46,7 +46,7 @@ class dbConn:
         return lista_ingredientes
     
 # Recetas
-    def db_crear_receta(self, nombre, descripcion, id_ingredientes):
+    def db_crear_receta(self, nombre, descripcion, id_ingredientes): #test_crear_receta
         query = """INSERT INTO public.recetas(
                     nombre, descripcion)
                     VALUES (%s, %s)
@@ -60,7 +60,7 @@ class dbConn:
             data = (id_receta, id_ingr)
             self.execute_query(query, data)
     
-    def db_cargar_recetas(self, lista_ingredientes_sis):
+    def db_cargar_recetas(self, lista_ingredientes_sis): #test_crear_receta
         query = """SELECT id, nombre, descripcion
                     FROM public.recetas;"""
         recetas = self.execute_query(query)
