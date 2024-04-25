@@ -4,7 +4,7 @@ from models.Ingrediente import Ingrediente
 from models.Receta import Receta
 
 class dbConn:
-    def __init__(self):
+    def __init__(self, test=False):
         load_dotenv()
         self.connData = {
             'dbname': os.getenv("ENV_DB_NAME_PROD"),
@@ -12,6 +12,8 @@ class dbConn:
             'host': os.getenv("ENV_HOST"),
             'port': os.getenv("ENV_PORT")
             }
+        if test:
+            self.connData['dbname'] = os.getenv("ENV_DB_NAME_TEST")
 
     def execute_query(self, query, data=None):
             conn = psycopg2.connect(**self.connData)

@@ -4,7 +4,7 @@ from utils.dbconn import dbConn
 app = Flask('__name__')
 
 # Inicializar variables
-dbconn = dbConn()
+dbconn = dbConn(test=True)
 ingredientes = dbconn.db_cargar_ingredientes()
 recetas = dbconn.db_cargar_recetas(ingredientes)
 

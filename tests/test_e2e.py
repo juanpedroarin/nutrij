@@ -2,8 +2,8 @@ import re, random
 from playwright.sync_api import Playwright, sync_playwright, expect
 
 
-def e2e_crear_receta(playwright: Playwright) -> None:
-    browser = playwright.chromium.launch(headless=False, slow_mo=500)
+def test_crear_receta(playwright: Playwright) -> None:
+    browser = playwright.chromium.launch(headless=True)
     context = browser.new_context()
     page = context.new_page()
 
@@ -60,11 +60,7 @@ def e2e_crear_receta(playwright: Playwright) -> None:
     page.get_by_role("button", name="Ver").click()
     expect(page.locator("#recetas-container")).to_contain_text("{} - {},{}".format(nombre_rec, nombre_ing1, nombre_ing2))
 
-
     # ---------------------
     context.close()
     browser.close()
 
-
-with sync_playwright() as playwright:
-    e2e_crear_receta(playwright)

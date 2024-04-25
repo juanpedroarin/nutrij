@@ -1,13 +1,7 @@
 import os, random
 from utils.dbconn import dbConn
 
-dbconn = dbConn()
-dbconn.connData = {
-        'dbname': os.getenv("ENV_DB_NAME_TEST"),
-        'user': os.getenv("ENV_USER"),
-        'host': os.getenv("ENV_HOST"),
-        'port': os.getenv("ENV_PORT")
-        }
+dbconn = dbConn(test=True)
 
 def test_crear_ingrediente():
     
