@@ -18,7 +18,8 @@ elif [ "$1" == "test" ]; then
     pytest -s
     TESTS_EXIT_CODE=$?
     kill $SERVER_PID
-    exit $TESTS_EXIT_CODE
+    flake8
+    exit $TESTS_EXIT_CODE 
     
 else
     echo "Command not found... <NutriJ>"
