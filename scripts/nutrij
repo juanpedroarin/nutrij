@@ -1,9 +1,18 @@
 #!/bin/bash
 
-#iniciar servidor
+# Iniciar servidor
 if [ "$1" == "run" ]; then
     python3 app.py
 
+# Iniciar base de datos
+elif [ "$1" == "dbstart" ]; then
+    pg_ctl -D /usr/local/var/postgres start 
+
+# Parar base de datos
+elif [ "$1" == "dbstop" ]; then
+    pg_ctl -D /usr/local/var/postgres stop   
+
+# Servidor, tests y cerrar
 elif [ "$1" == "test" ]; then
     python3 app.py & SERVER_PID=$!
     pytest -s
