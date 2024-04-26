@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from models.Ingrediente import Ingrediente
 from models.Receta import Receta
 
+
 class dbConn:
     def __init__(self, test=False):
         load_dotenv()
@@ -11,34 +12,34 @@ class dbConn:
             'user': os.getenv("ENV_USER"),
             'host': os.getenv("ENV_HOST"),
             'port': os.getenv("ENV_PORT")
-            }
+        }
         if test:
             self.connData['dbname'] = os.getenv("ENV_DB_NAME_TEST")
 
     def execute_query(self, query, data=None):
-            conn = psycopg2.connect(**self.connData)
-            cur = conn.cursor()
-            if data:
-                cur.execute(query, data)
-            else:
-                cur.execute(query)
-            try:
-                result = cur.fetchall()
-            except psycopg2.ProgrammingError as e:
-                result = ""
-            conn.commit()
-            cur.close()
-            conn.close()
-            return result
+        conn = psycopg2.connect(**self.connData)
+        cur = conn.cursor()
+        if data:
+            cur.execute(query, data)
+        else:
+            cur.execute(query)
+        try:
+            result = cur.fetchall()
+        except psycopg2.ProgrammingError:
+            result = ""
+        conn.commit()
+        cur.close()
+        conn.close()
+        return result
 
 # Ingredientes
-    def db_crear_ingrediente(self, nombre, unidad, prote): #test_crear_ingrediente
-        query = """INSERT INTO public.ingredientes (nombre, unidad, prote) 
+    def db_crear_ingrediente(self, nombre, unidad, prote):  # test_crear_ingrediente
+        query = """INSERT INTO public.ingredientes (nombre, unidad, prote)
                     VALUES (%s, %s, %s);"""
         data = (nombre, unidad, prote)
         self.execute_query(query, data)
-    
-    def db_cargar_ingredientes(self): #test_crear_ingrediente
+
+    def db_cargar_ingredientes(self):  # test_crear_ingrediente
         query = "SELECT * FROM public.ingredientes"
         result = self.execute_query(query)
         lista_ingredientes = []
@@ -46,9 +47,9 @@ class dbConn:
             ingrediente = Ingrediente(ingr[0], ingr[1], ingr[2], ingr[3])
             lista_ingredientes.append(ingrediente)
         return lista_ingredientes
-    
+
 # Recetas
-    def db_crear_receta(self, nombre, descripcion, id_ingredientes): #test_crear_receta
+    def db_crear_receta(self, nombre, descripcion, id_ingredientes):  # test_crear_receta
         query = """INSERT INTO public.recetas(
                     nombre, descripcion)
                     VALUES (%s, %s)
@@ -61,8 +62,8 @@ class dbConn:
                         VALUES (%s, %s);"""
             data = (id_receta, id_ingr)
             self.execute_query(query, data)
-    
-    def db_cargar_recetas(self, lista_ingredientes_sis): #test_crear_receta
+
+    def db_cargar_recetas(self, lista_ingredientes_sis):  # test_crear_receta
         query = """SELECT id, nombre, descripcion
                     FROM public.recetas;"""
         recetas = self.execute_query(query)
@@ -73,9 +74,10 @@ class dbConn:
                                             FROM public.receta_ingredientes
                                             WHERE id_receta = %s;"""
             lista_id_ingredientes_receta = self.execute_query(query_receta_ingredientes, (rece[0],))
-            ingredientes_receta = []          
+            ingredientes_receta = []
             for id_i in lista_id_ingredientes_receta:
-                ingrediente_obj =  next((ingrediente for ingrediente in lista_ingredientes_sis if ingrediente.id == id_i[0]), None)
+                ingrediente_obj = next((ingrediente for ingrediente in lista_ingredientes_sis
+                                        if ingrediente.id == id_i[0]), None)
                 if ingrediente_obj:
                     ingredientes_receta.append(ingrediente_obj)
             receta.ingredientes = ingredientes_receta

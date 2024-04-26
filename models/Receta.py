@@ -6,12 +6,15 @@ class Receta:
         self.ingredientes = ingredientes
 
     def __str__(self) -> str:
-        rece =  "[RECETA {}:, {} ".format(self.id, self.nombre)+", ING: "+str(len(self.ingredientes))
+        rece = (
+            "[RECETA {}:, {} ".format(self.id, self.nombre)
+            + ", ING: " + str(len(self.ingredientes))
+        )
         for ingr in self.ingredientes:
             rece += "({})".format(ingr)
         rece += "]"
         return rece
-    
+
     def to_dict(self):
         dic = {
             'id': self.id,
@@ -19,4 +22,4 @@ class Receta:
             'descripcion': self.descripcion,
             'ingredientes': [ingrediente.nombre for ingrediente in self.ingredientes]
         }
-        return(dic)
+        return dic
